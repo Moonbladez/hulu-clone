@@ -2,8 +2,28 @@ import Head from "next/head";
 
 import { Header } from "./../components/Header";
 import { Nav } from "./../components/Nav";
+import { Results } from "./../components/Results";
+import requests from "./../utils/requests";
 
-export default function Home() {
+export interface ResultsProps {
+  adult: boolean;
+  backdrop_path: string;
+  first_air_date: string;
+  genre_ids: Number[];
+  id: number;
+  media_type: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+export default function Home(props: { results: ResultsProps }) {
   return (
     <div>
       <Head>
@@ -12,12 +32,26 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {/* Header */}
       <Header />
-      {/* Nav */}
       <Nav />
 
-      {/* results */}
+      <Results results={props.results} />
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const genre = context.query.genre;
+
+  const request = await fetch(
+    `https://api.themoviedb.org/3${requests[genre]?.url || requests.fetchTrending.url}`
+  ).then((res) => res.json());
+
+  console.log(request);
+
+  return {
+    props: {
+      results: request.results,
+    },
+  };
 }

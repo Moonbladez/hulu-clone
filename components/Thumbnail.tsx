@@ -5,7 +5,7 @@ import { ThumbUpIcon } from "@heroicons/react/outline";
 export const Thumbnail = (props: { key: number; result: ResultsProps }): JSX.Element => {
   const BASE_URL = "https://image.tmdb.org/t/p/original/";
   return (
-    <div className="group cursor-pointer p-2 transition duration-200 ease-in transform sm:hover:scale-105 hover:z-50">
+    <div className="group cursor-pointer p-2 transition duration-200 ease-in transform sm:hover:scale-105 hover:z-50 mb-5">
       <Image layout="responsive" height={1080} width={1920} src={`${BASE_URL}${props.result.poster_path}`} />
       <div className="pt-2">
         <p className="truncate max-w-md">{props.result.overview}</p>
